@@ -41,8 +41,10 @@ public class PlayerController : MonoBehaviour {
 		if (playerIsInteracting) {
 			Effects.DrawArrow(dragVisualization, transform.position, mouseToPlayer);
 			Effects.SetTime(GameManager.instance.playerSettings.slowDownTime, GameManager.instance.playerSettings.slowDownLerpDuration);
+			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 1.0f, GameManager.instance.playerSettings.slowDownLerpDuration);
 		} else {
 			Effects.SetTime(1.0f, GameManager.instance.playerSettings.speedUpLerpDuration);
+			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 0.0f, GameManager.instance.playerSettings.speedUpLerpDuration);
 		}
 		#endregion
 

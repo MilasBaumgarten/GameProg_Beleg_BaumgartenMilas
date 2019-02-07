@@ -209,7 +209,7 @@ MonoBehaviour:
     showEyeDropper: 1
   groundColor:
     m_OverrideState: 1
-    m_Value: {r: 0.59927905, g: 0.6172068, b: 0.6320754, a: 1}
+    m_Value: {r: 0.12709148, g: 0.5283019, b: 0.17884034, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1

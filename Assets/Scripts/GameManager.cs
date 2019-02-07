@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GameManager : MonoBehaviour {
 	public static GameManager instance;
@@ -6,19 +7,21 @@ public class GameManager : MonoBehaviour {
 	public float fixedDeltaTimeStart;
 
 	public PlayerScriptableObject playerSettings;
+	public PostProcessVolume slowMotionPostProcessingVolume;
+
 
 	void Start() {
 		if (instance == null) {
 			instance = this;
 			DontDestroyOnLoad(gameObject);
 
-			GetValues();
+			Setup();
 		} else {
 			Destroy(gameObject);
 		}
 	}
 
-	private void GetValues() {
+	private void Setup() {
 		fixedDeltaTimeStart = Time.fixedDeltaTime;
 	}
 }

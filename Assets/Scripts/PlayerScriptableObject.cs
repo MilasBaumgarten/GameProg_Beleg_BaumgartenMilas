@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 [CreateAssetMenu()]
 public class PlayerScriptableObject : ScriptableObject {

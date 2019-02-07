@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
-  m_Name: PostProcessVolumeProfile
+  m_Name: defaultPostProcessing
   m_EditorClassIdentifier: 
   settings:
   - {fileID: 114015055215414410}
@@ -1544,10 +1544,10 @@ MonoBehaviour:
     value: 0.25
   smoothness:
     overrideState: 1
-    value: 0.25
+    value: 1
   roundness:
     overrideState: 1
-    value: 1
+    value: 0.5
   rounded:
     overrideState: 1
     value: 1
