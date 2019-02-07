@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
   enableDebugFeatures: 1
-  forceStrength: 8
+  forceStrength: 9
   slowDownTime: 0.1
   slowDownLerpDuration: 0.3
   speedUpLerpDuration: 0.1
+  maxVelocityToZoom: 30
+  maxOffsetZ: 10
+  defaultOffsetZ: 5
+  offsetLerpSpeed: 5
