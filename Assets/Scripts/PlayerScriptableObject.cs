@@ -12,4 +12,10 @@ public class PlayerScriptableObject : ScriptableObject {
 	public float slowDownTime = 0.1f;
 	public float slowDownLerpDuration = 0.3f;
 	public float speedUpLerpDuration = 0.1f;
+
+	[Header("Camera")]
+	public float maxVelocityToZoom = 30.0f;
+	public float maxOffsetZ = 10.0f;
+	public float defaultOffsetZ = 5.0f;
+	public float offsetLerpSpeed = 2.0f;
 }

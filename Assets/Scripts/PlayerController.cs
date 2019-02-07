@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour {
 		// get mouse position
 		Vector2 pos = Input.mousePosition;
 		// calculate worldposition of mouse
-		Vector2 mp = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, -cam.transform.position.z));
+		Vector2 mp = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, cam.transform.position.z));
 		// return as 2D Vector
 		return mp;
 	}
