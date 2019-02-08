@@ -67,12 +67,20 @@ public class PlayerController : MonoBehaviour {
 		dragVisualization.enabled = false;
 	}
 
-	private Vector2 GetMousePositionOnScreen(Camera cam) {
+	private Vector3 GetMousePositionOnScreen(Camera cam) {
 		// get mouse position
 		Vector2 pos = Input.mousePosition;
+		Vector3 camPos = cam.transform.position;
 		// calculate worldposition of mouse
-		Vector2 mp = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, cam.transform.position.z));
-		// return as 2D Vector
-		return mp;
+		Vector3 mouseInWorld = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, Vector3.Distance(transform.position, camPos)));
+
+		// correct mousePosition to be on player plane (x,y,0)
+		//		cameraPosition + (mousePositionInWorld - cameraPosition) * n -> real mousePositionInWorld 
+		//		(the camera rotation has to be accounted for because the mouse position is otherwise on a different z Value than the player)
+		//		n was calculated by transforming the term: cameraZ + (mouseZ - cameraZ) * n = 0
+		//			the correct z value for the mouse position is 0 because the player is on the same axis and the players z value won't be changed (that's why we can just assume it stays 0)
+		Vector3 mouseIn2D = camPos + ((mouseInWorld - camPos) * (-camPos.z / (mouseInWorld.z - camPos.z)));
+
+		return mouseIn2D;
 	}
 }
