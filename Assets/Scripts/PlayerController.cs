@@ -52,8 +52,7 @@ public class PlayerController : MonoBehaviour {
 		if (GameManager.instance.playerSettings.enableDebugFeatures) {
 			// reset player
 			if (Input.GetKeyDown(KeyCode.Space)) {
-				transform.position = new Vector3(0, 1, 0);
-				rb.velocity = Vector3.zero;
+				GameManager.instance.Respawn();
 			}
 		}
 		#endregion
