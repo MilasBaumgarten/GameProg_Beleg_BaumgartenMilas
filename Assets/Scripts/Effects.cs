@@ -17,7 +17,7 @@ public class Effects : MonoBehaviour {
 		if (from.weight > 0.01f) {
 			from.weight -= (1.0f / duration) * Time.unscaledDeltaTime;
 			to.weight = 1.0f - from.weight;
-		} else if(from.weight < 0) {	// clamp (to be sure)
+		} else if (from.weight < 0) {   // clamp (to be sure)
 			from.weight = 0;
 			to.weight = 1.0f;
 		}
@@ -37,6 +37,14 @@ public class Effects : MonoBehaviour {
 			// clamp value at the end
 			volume.weight = value;
 		}
+	}
+
+	/// <summary>
+	/// Change the Timescale instantaneously to change the speed of the game.
+	/// </summary>
+	/// <param name="value"> new Time.timeScale </param>
+	public static void SetTime(float value) {
+		SetTime(value, 0);
 	}
 
 	/// <summary>
@@ -61,7 +69,13 @@ public class Effects : MonoBehaviour {
 				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
 			}
 		} else {
-			// clamp values at the end
+			// clamp values at the end of the lerp
+			Time.timeScale = value;
+			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+		}
+
+		// clamp timeScale so that timeScale is never < 0
+		if (Time.timeScale <= 0) {
 			Time.timeScale = value;
 			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
 		}

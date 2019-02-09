@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 
-public class CheckPoint : MonoBehaviour {
+public class CheckPoint : CollisionBehaviour {
+	protected override void OnCollisionEnterWithPlayer() {
+		base.OnCollisionEnterWithPlayer();
+		SetCheckpoint();
+	}
 
-	private void OnCollisionEnter(Collision collision) {
-		// register last checkpoint which was touched by the player in the GameManager
-		if (collision.gameObject.CompareTag("Player")) {
-			GameManager.instance.lastactivatedSpawn = gameObject;
-		}
+	protected override void OnTriggerEnterWithPlayer() {
+		base.OnTriggerEnterWithPlayer();
+		SetCheckpoint();
+	}
+
+	private void SetCheckpoint() {
+		GameManager.instance.lastactivatedSpawn = gameObject;
 	}
 }
