@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 public class CollisionBehaviour : MonoBehaviour {
 
-	[SerializeField] private UnityEvent onCollisionEnterWithPlayer;
-	[SerializeField] private UnityEvent onTriggerEnterWithPlayer;
+	[SerializeField] private UnityEvent onCollisionEnterWithPlayer = null;
+	[SerializeField] private UnityEvent onTriggerEnterWithPlayer = null;
 
 	protected virtual void OnCollisionEnterWithPlayer() {
 		onCollisionEnterWithPlayer.Invoke();

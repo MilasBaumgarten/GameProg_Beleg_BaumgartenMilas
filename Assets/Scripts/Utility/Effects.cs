@@ -54,7 +54,7 @@ public class Effects : MonoBehaviour {
 	public static void SetTime(float value, float duration) {
 		if (duration == 0) {
 			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+			Time.fixedDeltaTime = value * GameManager.instance.GetFixedDeltaTimeBaseValue();
 			return;
 		}
 
@@ -63,21 +63,21 @@ public class Effects : MonoBehaviour {
 			// fixedDeltaTime has to be changed because otherwise the rendering looks like it stutters (low fps)
 			if (Time.timeScale < value) {
 				Time.timeScale += (1.0f / duration) * Time.unscaledDeltaTime;
-				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
+				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.GetFixedDeltaTimeBaseValue();
 			} else {
 				Time.timeScale -= (1.0f / duration) * Time.unscaledDeltaTime;
-				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
+				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.GetFixedDeltaTimeBaseValue();
 			}
 		} else {
 			// clamp values at the end of the lerp
 			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+			Time.fixedDeltaTime = value * GameManager.instance.GetFixedDeltaTimeBaseValue();
 		}
 
 		// clamp timeScale so that timeScale is never < 0
 		if (Time.timeScale <= 0) {
 			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+			Time.fixedDeltaTime = value * GameManager.instance.GetFixedDeltaTimeBaseValue();
 		}
 	}
 }
