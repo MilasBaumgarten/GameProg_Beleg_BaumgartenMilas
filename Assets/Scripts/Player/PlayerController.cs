@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(LineRenderer))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private Camera mainCam;
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		rb = GetComponent<Rigidbody>();
 		mainCam = Camera.main;
-		dragVisualization = GetComponent<LineRenderer>();
+		dragVisualization = GetComponentInChildren<LineRenderer>();
 		dragVisualization.enabled = false;
 	}
 
@@ -25,15 +25,12 @@ public class PlayerController : MonoBehaviour {
 
 		// user starts dragging
 		if (Input.GetButtonDown("Fire1")) {
-			playerIsInteracting = true;
 			InteractionStarted();
 		}
 
-		// user ends dragging -> shoot player
+		// user ends dragging
 		if (Input.GetButtonUp("Fire1")) {
-			playerIsInteracting = false;
 			InteractionEnded();
-			rb.AddForce(mouseToPlayer * GameManager.instance.playerSettings.forceStrength, ForceMode.Impulse);
 		}
 
 		#region Visualization
@@ -52,19 +49,24 @@ public class PlayerController : MonoBehaviour {
 		if (GameManager.instance.playerSettings.enableDebugFeatures) {
 			// reset player
 			if (Input.GetKeyDown(KeyCode.Space)) {
-				transform.position = new Vector3(0, 1, 0);
-				rb.velocity = Vector3.zero;
+				GameManager.instance.Respawn();
 			}
 		}
 		#endregion
 	}
 
 	private void InteractionStarted() {
+		playerIsInteracting = true;
 		dragVisualization.enabled = true;
 	}
 
 	private void InteractionEnded() {
+		playerIsInteracting = false;
 		dragVisualization.enabled = false;
+		// shoot player
+		rb.AddForce(mouseToPlayer * GameManager.instance.playerSettings.forceStrength, ForceMode.Impulse);
+
+		GameManager.instance.PlayerShot();
 	}
 
 	private Vector3 GetMousePositionOnScreen(Camera cam) {

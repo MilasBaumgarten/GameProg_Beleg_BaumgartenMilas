@@ -5,7 +5,7 @@ using Cinemachine;
 public class CameraController : MonoBehaviour {
 	private Rigidbody rb;
 
-	[SerializeField] private CinemachineVirtualCamera cam;
+	[SerializeField] private CinemachineVirtualCamera cam = null;
 	private CinemachineTransposer camBody;
 
 	void Start() {

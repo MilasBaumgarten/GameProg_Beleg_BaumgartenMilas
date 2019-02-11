@@ -17,7 +17,7 @@ public class Effects : MonoBehaviour {
 		if (from.weight > 0.01f) {
 			from.weight -= (1.0f / duration) * Time.unscaledDeltaTime;
 			to.weight = 1.0f - from.weight;
-		} else if(from.weight < 0) {	// clamp (to be sure)
+		} else if (from.weight < 0) {   // clamp (to be sure)
 			from.weight = 0;
 			to.weight = 1.0f;
 		}
@@ -40,13 +40,21 @@ public class Effects : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Change the Timescale instantaneously to change the speed of the game.
+	/// </summary>
+	/// <param name="value"> new Time.timeScale </param>
+	public static void SetTime(float value) {
+		SetTime(value, 0);
+	}
+
+	/// <summary>
 	/// Change the Timescale to change the speed of the game.
 	/// </summary>
 	/// <param name="value"> new Time.timeScale </param>
 	public static void SetTime(float value, float duration) {
 		if (duration == 0) {
 			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+			Time.fixedDeltaTime = value * GameManager.instance.GetFixedDeltaTimeBaseValue();
 			return;
 		}
 
@@ -55,15 +63,21 @@ public class Effects : MonoBehaviour {
 			// fixedDeltaTime has to be changed because otherwise the rendering looks like it stutters (low fps)
 			if (Time.timeScale < value) {
 				Time.timeScale += (1.0f / duration) * Time.unscaledDeltaTime;
-				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
+				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.GetFixedDeltaTimeBaseValue();
 			} else {
 				Time.timeScale -= (1.0f / duration) * Time.unscaledDeltaTime;
-				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
+				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.GetFixedDeltaTimeBaseValue();
 			}
 		} else {
-			// clamp values at the end
+			// clamp values at the end of the lerp
 			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+			Time.fixedDeltaTime = value * GameManager.instance.GetFixedDeltaTimeBaseValue();
+		}
+
+		// clamp timeScale so that timeScale is never < 0
+		if (Time.timeScale <= 0) {
+			Time.timeScale = value;
+			Time.fixedDeltaTime = value * GameManager.instance.GetFixedDeltaTimeBaseValue();
 		}
 	}
 }
