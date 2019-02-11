@@ -2,6 +2,7 @@
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Timer))]
 public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
@@ -10,13 +11,13 @@ public class GameManager : MonoBehaviour {
 	public PlayerScriptableObject playerSettings;
 	public PostProcessVolume slowMotionPostProcessingVolume;
 
-	private Timer timer = new Timer();
+	private Timer timer;
 	[SerializeField] private Text timerText = null;
 	private int hits = 0;
 	[SerializeField] private Text hitsText = null;
 
 	private GameObject player;
-	[HideInInspector] public GameObject lastactivatedSpawn;
+	private GameObject currentCheckpoint;
 
 	void Start() {
 		if (instance == null) {
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour {
 		fixedDeltaTimeStart = Time.fixedDeltaTime;
 		// find the player
 		player = GameObject.FindGameObjectWithTag("Player");
+
+		timer = GetComponent<Timer>();
 	}
 
 	private void Update() {
@@ -43,16 +46,17 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void Respawn() {
-		player.transform.position = lastactivatedSpawn.transform.position;
+		player.transform.position = currentCheckpoint.transform.position;
 		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-		// reset timer and hits
-		// TODO: reset to value at last checkpoint
-		timer.Reset();
-		timerText.text = "0.00 sec";
+		// reset timer
+		//timer.Reset(Time.time - currentCheckpoint.GetComponent<CheckPoint>().GetCheckpointTime());
+		timer.ResetTimer(currentCheckpoint.GetComponent<CheckPoint>().GetCheckpointTime());
+		timerText.text = timer.GetDuration();
 
-		hits = 0;
-		hitsText.text = "0";
+		// reset hits
+		hits = currentCheckpoint.GetComponent<CheckPoint>().GetCheckpointHits();
+		hitsText.text = hits.ToString();
 	}
 
 	// reset Time.fixedDeltaTime when game is closed
@@ -68,10 +72,26 @@ public class GameManager : MonoBehaviour {
 	public void PlayerShot() {
 		// start Timer when player makes first hit
 		if (!timer.TimerIsRunning()) {
-			timer.Start();
+			timer.StartTimer();
 		}
 
 		hits ++;
 		hitsText.text = hits.ToString();
+	}
+
+	public void SetCurrentCheckpoint(GameObject checkpoint) {
+		if (checkpoint.GetComponent<CheckPoint>() != null) {
+			currentCheckpoint = checkpoint;
+		} else {
+			Debug.LogError(checkpoint.name + " is not a checkpoint!");
+		}
+	}
+
+	public int GetCurrentHits() {
+		return hits;
+	}
+
+	public float GetCurrentTimerTime() {
+		return timer.GetCurrentTime();
 	}
 }

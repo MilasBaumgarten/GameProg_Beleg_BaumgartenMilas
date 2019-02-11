@@ -1,27 +1,46 @@
 ﻿using UnityEngine;
 
-public class Timer {
-	private bool isRunning;
-	private float startTime;
+public class Timer : MonoBehaviour {
+	private bool isRunning = false;
+	private float currentTime = 0;
 
-	public void Start() {
+	public void StartTimer() {
 		isRunning = true;
-		startTime = Time.time;
 	}
 
-	public void Pause() {
-		throw new System.NotImplementedException();
-	}
-
-	public void Reset() {
+	public void PauseTimer() {
 		isRunning = false;
 	}
 
+	/// <summary>
+	/// Resets the Timer to the given time.
+	/// </summary>
+	/// <param name="startTime"> time, the Timer should be set to (e.g. last checkpoint time). Set to 0 for full reset. </param>
+	public void ResetTimer(float startTime) {
+		currentTime = startTime;
+		PauseTimer();
+	}
+
+	/// <summary>
+	/// Get the running time of the timer in the form: "0.00 sec".
+	/// </summary>
+	/// <returns></returns>
 	public string GetDuration() {
-		return (Time.time - startTime).ToString("0.00") + " sec";
+		return currentTime.ToString("0.00") + " sec";
+	}
+
+	public float GetCurrentTime() {
+		return currentTime;
 	}
 
 	public bool TimerIsRunning() {
 		return isRunning;
+	}
+
+	// increase running time of timer when timer is activated
+	private void Update() {
+		if (isRunning) {
+			currentTime += Time.deltaTime;
+		}
 	}
 }

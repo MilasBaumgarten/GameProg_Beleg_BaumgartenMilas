@@ -225,7 +225,7 @@ PrefabInstance:
     - target: {fileID: 5908673189821981435, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
       propertyPath: m_Name
-      value: DeatZone (3)
+      value: DeathZone (3)
       objectReference: {fileID: 0}
     - target: {fileID: 4235829477122733440, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
@@ -498,7 +498,7 @@ PrefabInstance:
     - target: {fileID: 5908673189821981435, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
       propertyPath: m_Name
-      value: DeatZone (1)
+      value: DeathZone (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4235829477122733440, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
@@ -1687,6 +1687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 955298513}
   - component: {fileID: 955298512}
+  - component: {fileID: 955298514}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1710,7 +1711,6 @@ MonoBehaviour:
   slowMotionPostProcessingVolume: {fileID: 20504631}
   timerText: {fileID: 1944700484}
   hitsText: {fileID: 325235536}
-  lastactivatedSpawn: {fileID: 0}
 --- !u!4 &955298513
 Transform:
   m_ObjectHideFlags: 0
@@ -1725,6 +1725,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &955298514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955298511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9ab52953f0fa240a0fd94bda802071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1051031436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,7 +2468,7 @@ PrefabInstance:
     - target: {fileID: 5908673189821981435, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
       propertyPath: m_Name
-      value: DeatZone (2)
+      value: DeathZone (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4235829477122733440, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
@@ -3231,7 +3243,7 @@ PrefabInstance:
     - target: {fileID: 5908673189821981435, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
       propertyPath: m_Name
-      value: DeatZone
+      value: DeathZone
       objectReference: {fileID: 0}
     - target: {fileID: 4235829477122733440, guid: 5182c54847b2c1a4486e0591982e48ff,
         type: 3}
