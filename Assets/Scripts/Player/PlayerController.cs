@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 		// shoot player
 		rb.AddForce(mouseToPlayer * GameManager.instance.playerSettings.forceStrength, ForceMode.Impulse);
 
-		GameManager.instance.PlayerShot();
+		GameManager.instance.stats.PlayerShot();
 	}
 
 	private Vector3 GetMousePositionOnScreen(Camera cam) {

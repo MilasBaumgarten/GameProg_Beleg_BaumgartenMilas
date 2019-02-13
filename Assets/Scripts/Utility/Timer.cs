@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 public class Timer : MonoBehaviour {
-	private bool isRunning = false;
-	private float currentTime = 0;
+	public bool isRunning { get; private set; }
+	public float currentTime { get; private set; }
 
 	public void StartTimer() {
 		isRunning = true;
@@ -27,14 +27,6 @@ public class Timer : MonoBehaviour {
 	/// <returns></returns>
 	public string GetDuration() {
 		return currentTime.ToString("0.00") + " sec";
-	}
-
-	public float GetCurrentTime() {
-		return currentTime;
-	}
-
-	public bool TimerIsRunning() {
-		return isRunning;
 	}
 
 	// increase running time of timer when timer is activated

@@ -21,8 +21,8 @@ public class CheckPoint : CollisionBehaviour {
 		if (!activated) {
 			activated = true;
 			GameManager.instance.SetCurrentCheckpoint(gameObject);
-			currentHits = GameManager.instance.GetCurrentHits();
-			currentTime = GameManager.instance.GetCurrentTimerTime();//Time.time;
+			currentHits = GameManager.instance.stats.hits;
+			currentTime = GameManager.instance.stats.timer.currentTime;
 		}
 	}
 
