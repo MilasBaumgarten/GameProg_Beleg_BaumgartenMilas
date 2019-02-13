@@ -22,20 +22,27 @@ public class WriteJSON {
 	}
 
 	public static Highscore LoadHighscore(string saveFileName) {
-		FileStream file = File.Open(Application.persistentDataPath + saveFileName, FileMode.Open, FileAccess.Read);
+		// check if file exists
+		// use empty highscore when no file was found
+		FileInfo fileInfo = new FileInfo(Application.persistentDataPath + saveFileName);
+		if (!fileInfo.Exists) {
+			return new Highscore();
+		}
+
+		FileStream fileStream = File.Open(Application.persistentDataPath + saveFileName, FileMode.Open, FileAccess.Read);
 		// overwrite highscore data in file with higscore data in the game
-		StreamReader reader = new StreamReader(file);
+		StreamReader reader = new StreamReader(fileStream);
 
 		Highscore highscore = new Highscore();
 
 		string entry;
 		// read every line until the end of the file
-		while ((entry = reader.ReadLine()) != null){
-			highscore.AddEntry(JsonUtility.FromJson<HighscoreEntry>(entry));
+		while ((entry = reader.ReadLine()) != null) {
+			highscore.AddEntry(new HighscoreEntry(JsonUtility.FromJson<HighscoreEntry>(entry)));
 		}
 
 		reader.Close();
-		file.Close();
+		fileStream.Close();
 
 		return highscore;
 	}

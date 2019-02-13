@@ -31,4 +31,10 @@ public class Highscore{
 
 		return score;
 	}
+
+	// sort the entries in ascending order
+	// source: https://stackoverflow.com/questions/3309188/how-to-sort-a-listt-by-a-property-in-the-object
+	public void Sort() {
+		highscore.Sort((x, y) => x.points.CompareTo(y.points));
+	}
 }
