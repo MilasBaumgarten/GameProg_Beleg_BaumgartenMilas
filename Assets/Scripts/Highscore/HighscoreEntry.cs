@@ -23,7 +23,7 @@ public class HighscoreEntry {
 	public float points { get; private set; }
 
 	private float CalculatePoints(float time, int strokes) {
-		return (time * 100 + strokes * 100);
+		return (time * GameManager.instance.highscoreSettings.pointsPerSecond + strokes * GameManager.instance.highscoreSettings.pointsPerStroke);
 	}
 
 	public bool Equals(HighscoreEntry entry) {

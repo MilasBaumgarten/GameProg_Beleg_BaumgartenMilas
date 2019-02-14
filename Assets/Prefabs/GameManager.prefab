@@ -60,6 +60,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  highscoreSettings: {fileID: 11400000, guid: 47d0fa44de0d53245a36fd0a83fa86db, type: 2}
 --- !u!114 &1501703059790692642
 MonoBehaviour:
   m_ObjectHideFlags: 0
