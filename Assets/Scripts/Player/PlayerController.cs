@@ -10,11 +10,14 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 mouseToPlayer;
 	private bool playerIsInteracting = false;
 
+	private PlayerScriptableObject playerSettings;
+
 	// Start is called before the first frame update
 	void Start() {
 		rb = GetComponent<Rigidbody>();
 		mainCam = Camera.main;
 		dragVisualization = GetComponentInChildren<LineRenderer>();
+		playerSettings = GameManager.instance.playerSettings;
 		dragVisualization.enabled = false;
 	}
 
@@ -24,33 +27,36 @@ public class PlayerController : MonoBehaviour {
 		mouseToPlayer = Vector3.ClampMagnitude(transform.position - mousePos, 1.0f);
 
 		// user starts dragging
-		if (Input.GetButtonDown("Fire1")) {
+		if (Input.GetButtonDown("Fire1") && MouseInPlayerRange()) {
 			InteractionStarted();
 		}
 
 		// user ends dragging
-		if (Input.GetButtonUp("Fire1")) {
+		if (Input.GetButtonUp("Fire1") && playerIsInteracting) {
 			InteractionEnded();
+		}
+
+		// respawn player
+		if (Input.GetKeyDown(KeyCode.R)) {
+			GameManager.instance.Respawn();
+		}
+
+		if (playerSettings.enableDebugFeatures) {
+			// reset player
+			if (Input.GetKeyDown(KeyCode.F9)) {
+				GameManager.instance.Restart();
+			}
 		}
 
 		#region Visualization
 		// show stuff 
 		if (playerIsInteracting) {
 			Effects.DrawArrow(dragVisualization, transform.position, mouseToPlayer);
-			Effects.SetTime(GameManager.instance.playerSettings.slowDownTime, GameManager.instance.playerSettings.slowDownLerpDuration);
-			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 1.0f, GameManager.instance.playerSettings.slowDownLerpDuration);
+			Effects.SetTime(playerSettings.slowDownTime, playerSettings.slowDownLerpDuration);
+			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 1.0f, playerSettings.slowDownLerpDuration);
 		} else {
-			Effects.SetTime(1.0f, GameManager.instance.playerSettings.speedUpLerpDuration);
-			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 0.0f, GameManager.instance.playerSettings.speedUpLerpDuration);
-		}
-		#endregion
-
-		#region Debug
-		if (GameManager.instance.playerSettings.enableDebugFeatures) {
-			// reset player
-			if (Input.GetKeyDown(KeyCode.Space)) {
-				GameManager.instance.Respawn();
-			}
+			Effects.SetTime(1.0f,playerSettings.speedUpLerpDuration);
+			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 0.0f, playerSettings.speedUpLerpDuration);
 		}
 		#endregion
 	}
@@ -67,6 +73,10 @@ public class PlayerController : MonoBehaviour {
 		rb.AddForce(mouseToPlayer * GameManager.instance.playerSettings.forceStrength, ForceMode.Impulse);
 
 		GameManager.instance.stats.PlayerShot();
+	}
+
+	private bool MouseInPlayerRange() {
+		return (Vector3.Distance(mousePos, transform.position) <= playerSettings.maxDistanceMouseToPlayer);
 	}
 
 	private Vector3 GetMousePositionOnScreen(Camera cam) {

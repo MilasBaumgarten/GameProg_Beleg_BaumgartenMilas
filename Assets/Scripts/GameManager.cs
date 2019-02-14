@@ -6,24 +6,25 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
-	// for access in other files
 	public float fixedDeltaTimeStart { get; private set; }
 	public PlayerScriptableObject playerSettings;
 	public PostProcessVolume slowMotionPostProcessingVolume;
 	public Stats stats { get; private set; }
 
-	private GameObject player;
+	[SerializeField] private GameObject player;
+	private Vector3 playerSpawnPoint;
 	private GameObject currentCheckpoint;
 
 	public string saveFilename;
 	public GameObject EndscreenUI;
 	public GameObject[] highscoreEntries;
+	public HighscoreSettingsScriptableObject highscoreSettings;
 
 	// use GameManager as a Singleton
 	void Start() {
 		if (instance == null) {
 			instance = this;
-			// unparent object
+			// unparent GameManager
 			transform.parent = null;
 			DontDestroyOnLoad(gameObject);
 
@@ -35,25 +36,40 @@ public class GameManager : MonoBehaviour {
 
 	private void Setup() {
 		fixedDeltaTimeStart = Time.fixedDeltaTime;
-		// find the player
-		player = GameObject.FindGameObjectWithTag("Player");
 		stats = GetComponent<Stats>();
+		playerSpawnPoint = player.transform.position;
 	}
 
 	public void Restart() {
 		EndscreenUI.SetActive(false);
 
+		// reset all checkpoints
+		foreach(CheckPoint check in FindObjectsOfType<CheckPoint>()) {
+			check.activated = false;
+		}
+
+		// reset player to level start
 		player.GetComponent<Rigidbody>().useGravity = true;
 		player.GetComponent<PlayerController>().enabled = true;
-		Respawn();
-		// teleport player to level start
+		Respawn(playerSpawnPoint, 0, 0);
 	}
 
+	/// <summary>
+	/// Respawn the player at the last Checkpoint.
+	/// </summary>
 	public void Respawn() {
-		player.transform.position = currentCheckpoint.transform.position;
+		Respawn(currentCheckpoint.transform.position, currentCheckpoint.GetComponent<CheckPoint>().currentTime, currentCheckpoint.GetComponent<CheckPoint>().currentHits);
+	}
+
+	/// <summary>
+	/// Respawn player at the given position.
+	/// </summary>
+	/// <param name="position"> where the player should respawn </param>
+	public void Respawn(Vector3 position, float time, int strokes) {
+		player.transform.position = position;
 		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-		stats.Reset(currentCheckpoint.GetComponent<CheckPoint>().GetCheckpointTime(), currentCheckpoint.GetComponent<CheckPoint>().GetCheckpointHits());
+		stats.Reset(time, strokes);
 	}
 
 	public void Pause() {

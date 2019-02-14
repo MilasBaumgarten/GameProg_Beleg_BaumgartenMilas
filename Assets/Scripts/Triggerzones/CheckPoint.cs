@@ -3,8 +3,8 @@
 public class CheckPoint : CollisionBehaviour {
 	public bool activated = false;
 
-	private float currentTime;
-	private int currentHits;
+	public float currentTime { get; private set; }
+	public int currentHits { get; private set; }
 
 	protected override void OnCollisionEnterWithPlayer() {
 		base.OnCollisionEnterWithPlayer();
@@ -24,13 +24,5 @@ public class CheckPoint : CollisionBehaviour {
 			currentHits = GameManager.instance.stats.hits;
 			currentTime = GameManager.instance.stats.timer.currentTime;
 		}
-	}
-
-	public int GetCheckpointHits() {
-		return currentHits;
-	}
-
-	public float GetCheckpointTime() {
-		return currentTime;
 	}
 }
