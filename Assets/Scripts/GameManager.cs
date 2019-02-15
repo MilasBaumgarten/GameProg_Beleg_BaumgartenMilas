@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
@@ -9,10 +10,11 @@ public class GameManager : MonoBehaviour {
 	public float fixedDeltaTimeStart { get; private set; }
 	public PlayerScriptableObject playerSettings;
 	public PostProcessVolume slowMotionPostProcessingVolume;
+	public CinemachineVirtualCamera virtualCamera;
 	public Stats stats { get; private set; }
 
-	[SerializeField] private GameObject player;
-	private Vector3 playerSpawnPoint;
+	public GameObject player { get; private set; }
+	private SpawnPoint playerSpawnPoint;
 	private GameObject currentCheckpoint;
 
 	public string saveFilename;
@@ -28,6 +30,10 @@ public class GameManager : MonoBehaviour {
 			transform.parent = null;
 			DontDestroyOnLoad(gameObject);
 
+			// set variables which won't be changed later
+			fixedDeltaTimeStart = Time.fixedDeltaTime;
+			stats = GetComponent<Stats>();
+
 			Setup();
 		} else {
 			Destroy(gameObject);
@@ -35,9 +41,12 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Setup() {
-		fixedDeltaTimeStart = Time.fixedDeltaTime;
-		stats = GetComponent<Stats>();
-		playerSpawnPoint = player.transform.position;
+		playerSpawnPoint = FindObjectOfType<SpawnPoint>();
+
+		player = playerSpawnPoint.SpawnPlayer();
+
+		virtualCamera.m_Follow = player.transform;
+		virtualCamera.m_LookAt = player.transform;
 	}
 
 	public void Restart() {
@@ -48,10 +57,11 @@ public class GameManager : MonoBehaviour {
 			check.activated = false;
 		}
 
-		// reset player to level start
-		player.GetComponent<Rigidbody>().useGravity = true;
-		player.GetComponent<PlayerController>().enabled = true;
-		Respawn(playerSpawnPoint, 0, 0);
+		GameObject.Destroy(player.gameObject);
+
+		Setup();
+
+		stats.Reset();
 	}
 
 	/// <summary>

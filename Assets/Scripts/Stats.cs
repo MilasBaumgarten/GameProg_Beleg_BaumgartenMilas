@@ -21,6 +21,10 @@ public class Stats : MonoBehaviour {
 		}
 	}
 
+	public void Reset() {
+		Reset(0, 0);
+	}
+
 	public void Reset(float checkpointTime, int hits) {
 		timer.ResetTimer(checkpointTime);
 		timerText.text = timer.GetDuration();

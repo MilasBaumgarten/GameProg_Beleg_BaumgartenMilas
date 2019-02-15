@@ -16,13 +16,16 @@ public class CheckPoint : CollisionBehaviour {
 		SetCheckpoint();
 	}
 
-	private void SetCheckpoint() {
+	public void SetCheckpoint() {
+		SetCheckpoint(GameManager.instance.stats.hits, GameManager.instance.stats.timer.currentTime);
+	}
+	public void SetCheckpoint(int hits, float time) {
 		// activate checkpoint only if it wasn't activated before
 		if (!activated) {
 			activated = true;
 			GameManager.instance.SetCurrentCheckpoint(gameObject);
-			currentHits = GameManager.instance.stats.hits;
-			currentTime = GameManager.instance.stats.timer.currentTime;
+			currentHits = hits;
+			currentTime = time;
 		}
 	}
 }

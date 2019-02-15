@@ -4,13 +4,11 @@ using Cinemachine;
 [RequireComponent(typeof(Rigidbody))]
 public class CameraController : MonoBehaviour {
 	private Rigidbody rb;
-
-	[SerializeField] private CinemachineVirtualCamera cam = null;
 	private CinemachineTransposer camBody;
 
 	void Start() {
 		rb = GetComponent<Rigidbody>();
-		camBody = cam.GetCinemachineComponent<CinemachineTransposer>();
+		camBody = GameManager.instance.virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
 	}
 
 	// zoom in and out according to player speed
