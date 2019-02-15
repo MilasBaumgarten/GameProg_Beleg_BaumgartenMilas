@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSettings: {fileID: 11400000, guid: fd1ad7664ea370f4e9eb78135b01a197, type: 2}
   slowMotionPostProcessingVolume: {fileID: 0}
+  player: {fileID: 0}
   saveFilename: /Highscore.json
   EndscreenUI: {fileID: 0}
   highscoreEntries:
@@ -60,6 +61,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  highscoreSettings: {fileID: 11400000, guid: 47d0fa44de0d53245a36fd0a83fa86db, type: 2}
 --- !u!114 &1501703059790692642
 MonoBehaviour:
   m_ObjectHideFlags: 0

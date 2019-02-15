@@ -18,6 +18,6 @@ MonoBehaviour:
   slowDownLerpDuration: 0.3
   speedUpLerpDuration: 0.1
   maxVelocityToZoom: 30
-  maxOffsetZ: 10
-  defaultOffsetZ: 5
+  maxOffsetZ: 15
+  defaultOffsetZ: 7.5
   offsetLerpSpeed: 5
