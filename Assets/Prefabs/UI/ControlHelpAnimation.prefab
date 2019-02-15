@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minVelocityThreshold: 0.1
-  startTutorialAfterNSeconds: 1
+  startTutorialAfterNSeconds: 5
   tutorial: {fileID: 5656883150030714567}
 --- !u!114 &3081142741474946087
 MonoBehaviour:

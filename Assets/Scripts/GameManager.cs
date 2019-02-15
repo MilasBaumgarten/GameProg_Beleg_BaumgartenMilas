@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject player { get; private set; }
 	private SpawnPoint playerSpawnPoint;
 	private GameObject currentCheckpoint;
+	private ControlsTutorial controlsTutorial;
 
 	public string saveFilename;
 	public GameObject EndscreenUI;
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour {
 
 	private void Setup() {
 		playerSpawnPoint = FindObjectOfType<SpawnPoint>();
+		controlsTutorial = FindObjectOfType<ControlsTutorial>();
 
 		player = playerSpawnPoint.SpawnPlayer();
 
@@ -49,7 +51,11 @@ public class GameManager : MonoBehaviour {
 		virtualCamera.m_LookAt = player.transform;
 	}
 
+	/// <summary>
+	/// Reset all checkpoints and respawn the player at the start of the level.
+	/// </summary>
 	public void Restart() {
+		controlsTutorial.enabled = true;
 		EndscreenUI.SetActive(false);
 
 		// reset all checkpoints
@@ -57,7 +63,7 @@ public class GameManager : MonoBehaviour {
 			check.activated = false;
 		}
 
-		GameObject.Destroy(player.gameObject);
+		Destroy(player.gameObject);
 
 		Setup();
 
@@ -82,13 +88,6 @@ public class GameManager : MonoBehaviour {
 		stats.Reset(time, strokes);
 	}
 
-	public void Pause() {
-		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-		player.GetComponent<Rigidbody>().useGravity = false;
-		player.GetComponent<PlayerController>().enabled = false;
-		stats.timer.PauseTimer();
-	}
-
 	// reset Time.fixedDeltaTime when game is closed
 	private void OnDisable() {
 		Time.fixedDeltaTime = fixedDeltaTimeStart;
@@ -104,8 +103,16 @@ public class GameManager : MonoBehaviour {
 
 	public void PlayerEnteredGoal() {
 		// stop the game
-		Pause();
+		stats.timer.PauseTimer();
+		controlsTutorial.enabled = false;
 		EndscreenUI.SetActive(true);
+
+		// hide the player (so the camera will still center)
+		player.GetComponent<MeshRenderer>().enabled = false;
+		player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+		player.GetComponent<Rigidbody>().useGravity = false;
+		player.GetComponent<PlayerController>().enabled = false;
+		player.transform.GetChild(0).gameObject.SetActive(false);
 
 		// create highscore entry from current run
 		HighscoreEntry entry = new HighscoreEntry("Player", stats.timer.currentTime, stats.hits);

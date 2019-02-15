@@ -6,7 +6,7 @@ public class ControlsTutorial : MonoBehaviour {
 	[SerializeField] private float minVelocityThreshold = 0.1f;
 	[SerializeField] private float startTutorialAfterNSeconds = 1.0f;
 
-	[SerializeField] private GameObject tutorial;
+	[SerializeField] private GameObject tutorial = null;
 
 	private void Start() {
 		timer = GetComponent<Timer>();

@@ -3,7 +3,7 @@
 [RequireComponent(typeof(CheckPoint))]
 public class SpawnPoint : MonoBehaviour {
 
-	[SerializeField] private GameObject playerPrefab;
+	[SerializeField] private GameObject playerPrefab = null;
 
 	public GameObject SpawnPlayer() {
 		GameObject player = Instantiate(playerPrefab, transform.position, transform.rotation);
