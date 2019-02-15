@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7334e355838b83347bbb79f4ea743a03, type: 3}
+  m_Name: PlayerSettings
+  m_EditorClassIdentifier: 
+  enableDebugFeatures: 1
+  forceStrength: 9
+  slowDownTime: 0.1
+  slowDownLerpDuration: 0.3
+  speedUpLerpDuration: 0.1
+  maxVelocityToZoom: 30
+  maxOffsetZ: 15
+  defaultOffsetZ: 7.5
+  offsetLerpSpeed: 5
