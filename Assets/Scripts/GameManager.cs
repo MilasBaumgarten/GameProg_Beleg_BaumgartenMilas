@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Stats))]
@@ -118,11 +119,11 @@ public class GameManager : MonoBehaviour {
 		HighscoreEntry entry = new HighscoreEntry("Player", stats.timer.currentTime, stats.hits);
 
 		// add highscore entry to highscore
-		Highscore highscore = WriteJSON.LoadHighscore(saveFilename);
+		Highscore highscore = WriteJSON.LoadHighscore("/" + saveFilename + SceneManager.GetActiveScene().name + ".json");
 		highscore.AddEntry(entry);
 
 		// save new highscore entry to save file
-		WriteJSON.SaveHighscore(saveFilename, highscore);
+		WriteJSON.SaveHighscore("/" + saveFilename + SceneManager.GetActiveScene().name + ".json", highscore);
 
 		// clear score board
 		for (int i = 0; i < highscoreEntries.Length; i++) {
