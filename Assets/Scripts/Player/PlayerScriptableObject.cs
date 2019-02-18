@@ -13,6 +13,7 @@ public class PlayerScriptableObject : ScriptableObject {
 	public float slowDownLerpDuration = 0.3f;
 	public float speedUpLerpDuration = 0.1f;
 	public float maxDistanceMouseToPlayer = 2.0f;
+	[Range(0.0f, 0.51f)] public float minDragStepValue = 0.01f;
 
 	[Header("Camera")]
 	public float maxVelocityToZoom = 30.0f;

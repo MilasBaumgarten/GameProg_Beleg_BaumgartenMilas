@@ -4,7 +4,8 @@
 public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private Camera mainCam;
-	private LineRenderer dragVisualization;
+	[SerializeField] private GameObject dragVisualization = null;
+	private Material dragMaterial;
 
 	private Vector3 mousePos;
 	private Vector3 mouseToPlayer;
@@ -16,9 +17,11 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		rb = GetComponent<Rigidbody>();
 		mainCam = Camera.main;
-		dragVisualization = GetComponentInChildren<LineRenderer>();
+		dragMaterial = dragVisualization.GetComponent<MeshRenderer>().material;
 		playerSettings = GameManager.instance.playerSettings;
-		dragVisualization.enabled = false;
+
+		// scale dragVisualization up to show 
+		dragVisualization.transform.localScale *= playerSettings.maxDistanceMouseToPlayer * 1.9f;
 	}
 
 	void Update() {
@@ -51,10 +54,20 @@ public class PlayerController : MonoBehaviour {
 		#region Visualization
 		// show stuff 
 		if (playerIsInteracting) {
-			Effects.DrawArrow(dragVisualization, transform.position, mouseToPlayer);
+			dragMaterial.SetFloat("_StepCutoff", (1 - mouseToPlayer.magnitude) / 2.0f + playerSettings.minDragStepValue);
+
+			// rotate drag visualization towards mouse
+			// 180° have to be added when y is negative because Unity flips the angle here when it is bigger then 180°
+			if (mouseToPlayer.y > 0) {
+				dragVisualization.transform.rotation = Quaternion.Euler(0, 180.0f, Mathf.Atan(mouseToPlayer.x / mouseToPlayer.y) * Mathf.Rad2Deg);
+			} else {
+				dragVisualization.transform.rotation = Quaternion.Euler(0, 180.0f, Mathf.Atan(mouseToPlayer.x / mouseToPlayer.y) * Mathf.Rad2Deg + 180);
+			}
+			
 			Effects.SetTime(playerSettings.slowDownTime, playerSettings.slowDownLerpDuration);
 			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 1.0f, playerSettings.slowDownLerpDuration);
 		} else {
+			dragMaterial.SetFloat("_StepCutoff", 0.51f);
 			Effects.SetTime(1.0f,playerSettings.speedUpLerpDuration);
 			Effects.SetPostProcessingWeight(GameManager.instance.slowMotionPostProcessingVolume, 0.0f, playerSettings.speedUpLerpDuration);
 		}
@@ -63,16 +76,20 @@ public class PlayerController : MonoBehaviour {
 
 	private void InteractionStarted() {
 		playerIsInteracting = true;
-		dragVisualization.enabled = true;
 	}
 
 	private void InteractionEnded() {
 		playerIsInteracting = false;
-		dragVisualization.enabled = false;
 		// shoot player
 		rb.AddForce(mouseToPlayer * GameManager.instance.playerSettings.forceStrength, ForceMode.Impulse);
 
 		GameManager.instance.stats.PlayerShot();
+
+		ShootParticles();
+	}
+
+	private void ShootParticles() {
+		// insert cool stuff
 	}
 
 	private bool MouseInPlayerRange() {
@@ -80,10 +97,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private Vector3 GetMousePositionOnScreen(Camera cam) {
-		// get mouse position
 		Vector2 pos = Input.mousePosition;
 		Vector3 camPos = cam.transform.position;
-		// calculate worldposition of mouse
 		Vector3 mouseInWorld = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, Vector3.Distance(transform.position, camPos)));
 
 		// correct mousePosition to be on player plane (x,y,0)
