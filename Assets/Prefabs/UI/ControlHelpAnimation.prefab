@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417602032645985250}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,13 +41,13 @@ GameObject:
   - component: {fileID: 5376616184628206387}
   - component: {fileID: 3922291635551797362}
   - component: {fileID: 4371273603839794763}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5376616184628206387
 Transform:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 5286332010164964763}
   - component: {fileID: 3905137107597173770}
   - component: {fileID: 3081142741474946087}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ControlHelpAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
