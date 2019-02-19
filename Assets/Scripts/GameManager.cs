@@ -102,6 +102,18 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void StartNextLevel() {
+		// load next Scene in Build Index
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+		SceneManager.sceneLoaded += Restart;
+		
+	}
+
+	private void Restart(Scene scene, LoadSceneMode mode) {
+		Restart();
+	}
+
 	public void PlayerEnteredGoal() {
 		// stop the game
 		stats.timer.PauseTimer();
