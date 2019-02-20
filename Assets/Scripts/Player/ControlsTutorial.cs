@@ -7,13 +7,15 @@ public class ControlsTutorial : MonoBehaviour {
 	[SerializeField] private float startTutorialAfterNSeconds = 1.0f;
 
 	[SerializeField] private GameObject tutorial = null;
+	private Camera cam;
 
 	private void Start() {
 		timer = GetComponent<Timer>();
+		cam = Camera.main;
 	}
 
 	void Update() {
-		// start countdown when player is not mooving
+		// start countdown when player is not moving
 		if (GameManager.instance.player.GetComponent<Rigidbody>().velocity.magnitude <= minVelocityThreshold) {
 			if (!timer.isRunning) {
 				timer.StartTimer();
@@ -24,8 +26,9 @@ public class ControlsTutorial : MonoBehaviour {
 		}
 
 		// show tutorial animation after some idle time
-		if (timer.currentTime >= startTutorialAfterNSeconds) {
+		if (timer.currentTime >= startTutorialAfterNSeconds && !tutorial.activeSelf) {
 			tutorial.SetActive(true);
+			transform.position = GameManager.instance.player.transform.position;
 		}
 	}
 }

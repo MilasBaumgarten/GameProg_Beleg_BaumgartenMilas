@@ -58,6 +58,7 @@ public class Effects : MonoBehaviour {
 			return;
 		}
 
+		// check if the current time scale is near the goal value or not
 		if (Mathf.Abs(Time.timeScale - value) > 0.01f) {
 			// scale time down/ up
 			// fixedDeltaTime has to be changed because otherwise the rendering looks like it stutters (low fps)
@@ -65,19 +66,21 @@ public class Effects : MonoBehaviour {
 				Time.timeScale += (1.0f / duration) * Time.unscaledDeltaTime;
 				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
 			} else {
-				Time.timeScale -= (1.0f / duration) * Time.unscaledDeltaTime;
-				Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
+				// check if the time scale would be less than 0 after the change
+				if ((Time.timeScale - (1.0f / duration) * Time.unscaledDeltaTime) > 0) {
+					Time.timeScale -= (1.0f / duration) * Time.unscaledDeltaTime;
+					Time.fixedDeltaTime = Time.timeScale * GameManager.instance.fixedDeltaTimeStart;
+				} else {
+					FinishScaling(value);
+				}
 			}
 		} else {
-			// clamp values at the end of the lerp
-			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
+			FinishScaling(value);
 		}
+	}
 
-		// clamp timeScale so that timeScale is never < 0
-		if (Time.timeScale <= 0) {
-			Time.timeScale = value;
-			Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
-		}
+	private static void FinishScaling(float value) {
+		Time.timeScale = value;
+		Time.fixedDeltaTime = value * GameManager.instance.fixedDeltaTimeStart;
 	}
 }

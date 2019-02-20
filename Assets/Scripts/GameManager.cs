@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Stats))]
@@ -55,6 +56,9 @@ public class GameManager : MonoBehaviour {
 	/// Reset all checkpoints and respawn the player at the start of the level.
 	/// </summary>
 	public void Restart() {
+		Destroy(player.gameObject);
+		Setup();
+
 		controlsTutorial.enabled = true;
 		EndscreenUI.SetActive(false);
 
@@ -62,10 +66,6 @@ public class GameManager : MonoBehaviour {
 		foreach(CheckPoint check in FindObjectsOfType<CheckPoint>()) {
 			check.activated = false;
 		}
-
-		Destroy(player.gameObject);
-
-		Setup();
 
 		stats.Reset();
 	}
@@ -101,6 +101,18 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void StartNextLevel() {
+		// load next Scene in Build Index
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+		SceneManager.sceneLoaded += Restart;
+		
+	}
+
+	private void Restart(Scene scene, LoadSceneMode mode) {
+		Restart();
+	}
+
 	public void PlayerEnteredGoal() {
 		// stop the game
 		stats.timer.PauseTimer();
@@ -118,11 +130,11 @@ public class GameManager : MonoBehaviour {
 		HighscoreEntry entry = new HighscoreEntry("Player", stats.timer.currentTime, stats.hits);
 
 		// add highscore entry to highscore
-		Highscore highscore = WriteJSON.LoadHighscore(saveFilename);
+		Highscore highscore = WriteJSON.LoadHighscore("/" + saveFilename + SceneManager.GetActiveScene().name + ".json");
 		highscore.AddEntry(entry);
 
 		// save new highscore entry to save file
-		WriteJSON.SaveHighscore(saveFilename, highscore);
+		WriteJSON.SaveHighscore("/" + saveFilename + SceneManager.GetActiveScene().name + ".json", highscore);
 
 		// clear score board
 		for (int i = 0; i < highscoreEntries.Length; i++) {
