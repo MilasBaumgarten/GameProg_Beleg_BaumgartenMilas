@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviour {
 	/// Reset all checkpoints and respawn the player at the start of the level.
 	/// </summary>
 	public void Restart() {
+		Destroy(player.gameObject);
+		Setup();
+
 		controlsTutorial.enabled = true;
 		EndscreenUI.SetActive(false);
 
@@ -63,10 +66,6 @@ public class GameManager : MonoBehaviour {
 		foreach(CheckPoint check in FindObjectsOfType<CheckPoint>()) {
 			check.activated = false;
 		}
-
-		Destroy(player.gameObject);
-
-		Setup();
 
 		stats.Reset();
 	}
