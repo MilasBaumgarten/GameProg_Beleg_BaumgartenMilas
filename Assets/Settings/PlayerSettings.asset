@@ -17,7 +17,7 @@ MonoBehaviour:
   slowDownTime: 0.1
   slowDownLerpDuration: 0.3
   speedUpLerpDuration: 0.1
-  maxDistanceMouseToPlayer: 2
+  maxDistanceMouseToPlayer: 1.5
   minDragStepValue: 0.005
   maxVelocityToZoom: 30
   maxOffsetZ: 15

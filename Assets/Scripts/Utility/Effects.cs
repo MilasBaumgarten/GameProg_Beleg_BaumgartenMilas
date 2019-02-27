@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
-public class Effects : MonoBehaviour {
+public static class Effects {
 	/// <summary>
 	/// Draw an arrow from one point to another.
 	/// </summary>

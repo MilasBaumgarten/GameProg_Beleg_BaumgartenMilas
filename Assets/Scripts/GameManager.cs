@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour {
 
 		virtualCamera.m_Follow = player.transform;
 		virtualCamera.m_LookAt = player.transform;
+
+		SceneManager.sceneLoaded += Restart;
 	}
 
 	/// <summary>
@@ -102,11 +104,14 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void StartNextLevel() {
-		// load next Scene in Build Index
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-		SceneManager.sceneLoaded += Restart;
-		
+		int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+		// check Buildindex and reset player to first level after completing the last level
+		if (SceneManager.sceneCountInBuildSettings <= buildIndex) {
+			SceneManager.LoadScene(0);
+		} else {
+			// load next Scene in Build Index
+			SceneManager.LoadScene(buildIndex);
+		}
 	}
 
 	private void Restart(Scene scene, LoadSceneMode mode) {

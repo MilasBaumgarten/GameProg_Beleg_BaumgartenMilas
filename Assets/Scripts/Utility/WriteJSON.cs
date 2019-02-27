@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-public class WriteJSON {
+public static class WriteJSON {
 
 	public static void SaveHighscore(string saveFileName, Highscore highscore) {
 		try {
