@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 
 [CreateAssetMenu()]
 public class PlayerScriptableObject : ScriptableObject {
 	[Header("Settings")]
-	public bool enableDebugFeatures = true;
+	public bool enableDebugFeatures = false;
 
 	[Header("Variables")]
 	public float forceStrength = 4.0f;

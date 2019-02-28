@@ -4,7 +4,7 @@
 public class ControlsTutorial : MonoBehaviour {
 	private Timer timer;
 	[SerializeField] private float minVelocityThreshold = 0.1f;
-	[SerializeField] private float startTutorialAfterNSeconds = 1.0f;
+	[SerializeField] private float startTutorialAfterNSeconds = 5.0f;
 
 	[SerializeField] private GameObject tutorial = null;
 	private Camera cam;

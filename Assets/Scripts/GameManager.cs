@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
 	private ControlsTutorial controlsTutorial;
 
 	public string saveFilename;
-	public GameObject EndscreenUI;
+	public GameObject endscreenUI;
 	public GameObject[] highscoreEntries;
 	public HighscoreSettingsScriptableObject highscoreSettings;
 
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
 		Setup();
 
 		controlsTutorial.enabled = true;
-		EndscreenUI.SetActive(false);
+		endscreenUI.SetActive(false);
 
 		// reset all checkpoints
 		foreach(CheckPoint check in FindObjectsOfType<CheckPoint>()) {
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour {
 		// stop the game
 		stats.timer.PauseTimer();
 		controlsTutorial.enabled = false;
-		EndscreenUI.SetActive(true);
+		endscreenUI.SetActive(true);
 
 		// hide the player (so the camera will still center)
 		player.GetComponent<MeshRenderer>().enabled = false;
